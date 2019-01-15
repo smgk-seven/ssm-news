@@ -58,15 +58,28 @@ public class MapperTest {
 		System.out.println(news);
 	*/
 		
-		/*List<News> allNews = newsMapper.getAllNewsAndUser();
+		List<News> allNews = newsMapper.getAllNewsAndUser();
 		for(News n:allNews){
 			System.out.println(n);
-		}*/
-		List<News> allNewsAndUserByLike = newsMapper.getAllNewsAndUserByLike("来皮皮虾壳上","然后我们就可以来找虾");
+		}
+		/*String str="濑尿虾";
+		PageHelper.startPage(1, 5);
+		List<News> allNewsAndUserByLike = newsMapper.getAllNewsByNewsKeyword(str);
 		for(News n:allNewsAndUserByLike){
 			System.out.println(n);
-		}
+		}*/
 		
+		/*PageHelper.startPage(1, 5);
+		List<News> allNewsByGenre = newsMapper.getAllNewsByGenre(1);
+		for(News n:allNewsByGenre){
+			System.out.println(n);
+		}*/
+		
+	}
+	@Test
+	public void testGerne(){
+		Genre genre = genreMapper.getGenreBygenreName("视频");
+		System.out.println(genre);
 	}
 }
 

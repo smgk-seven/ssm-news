@@ -27,4 +27,5 @@ public interface GenreMapper {
     int updateByPrimaryKeySelective(Genre record);
 
     int updateByPrimaryKey(Genre record);
+    Genre getGenreBygenreName(@Param("genreName")String genreName);
 }

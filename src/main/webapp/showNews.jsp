@@ -21,6 +21,36 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 			padding:0;
 			margin:0;
 		} 
+		#head{
+  			width:100%;
+  			height:45px;
+			background: black;  			
+  		}
+  		#headContent{
+  			width:1200px;
+  			height:48px;
+			border: 0.3px solid white;
+			margin:0px auto;  			
+  		}
+  		#newsWeather{
+  			width:200px;
+  			height:48px;
+			border: 0.3px solid white;
+			float:left; 			
+  		}
+  		#newsHeadMenu{
+  			width:200px;
+  			height:48px;
+			border: 0.3px solid white;
+			float:right; 			
+  		}
+  		#newsHeadMenu span,#newsWeather span{
+  			font-size: 17px;
+  			color: white;
+  			text-align: center;
+  			line-height: 50px;
+  			cursor: pointer;
+  		}
 		#big{
 			width:1208px;
 			
@@ -115,21 +145,72 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 			cursor: pointer;
 			font-size: 17px;
 		}
-		
+		#left ul li{
+			width:120px;
+			height: 50px;
+			border:1px solid red;
+			list-style: none;
+			margin:2px auto;
+			
+			
+		}
+		#left ul li i{
+			cursor: pointer;
+		}
+		#left ul li span{
+			font-size:20px;
+			font-style:italic;
+			color: rgba(248,87,92,0.9);
+			
+		}
 	</style>
 
 	</head>
 		
 	<body>
+		<div id="head">
+			<div id="headContent">
+				<div id="newsWeather">
+					<span>广东-佛山：<span><em>10</em>°&nbsp;/&nbsp;<em>10</em>°
+    				</span></span>
+    				
+    			</div>
+				<div id="newsHeadMenu">
+					<span>投诉侵权</span>
+					&nbsp;&nbsp;&nbsp;;&nbsp;
+					<span>联系客服</span>
+				</div>
+			</div>
+		</div>
 		<div id="big">
-			<div id="left"></div>
+			<div id="left">
+				<ul>
+					<li class="">
+						<i class="fa fa-star-o" style="font-size:40px;color:red"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+						<span>99+</span>
+					</li>
+					<li class="">
+						<i class="fa fa-thumbs-o-up" style="font-size: 40px;color:red"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+						<span>99+</span>
+					</li>
+					<li class="">
+						<i class="fa fa-commenting-o" style="font-size:40px;color:red"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+						<span>99+</span>
+					</li>
+					<li class="">
+						<i class="fa fa-reply" style="font-size:40px;color:red"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+						<span>转发</span>
+					</li>
+					
+				</ul>
+			</div>
 			<div id="right">
 				<div id="newsTitleDiv">
 					<h4 id="newsTitleH4"></h4>
 				</div>
 				<div id="newsContentDiv">
 				</div>
-				<div id="newsDataDiv">
+				<!-- <div id="newsDataDiv">
 					<div id="newsDataLeft">
 						<ul>
 							<li style="width:130px;">作者：<span id="newsAuthor"></span></li>
@@ -145,7 +226,7 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<span><i class="fa fa-heart-o" style="font-size:24px"></i></span>
 					</div>
-				</div>
+				</div> -->
 				<div id="newsCommentDiv">
 					<div id="newsInputDiv" >
 						<form action="#" method="post">
@@ -186,7 +267,6 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 			document.getElementById("newsAuthor").innerHTML=result.extend.news.user.nickName;
 			document.getElementById("newsTime").innerHTML=result.extend.news.returnDate;
 			document.getElementById("newsTime").innerHTML=result.extend.news.returnDate;
-			
 		}
 	</script>
 </html>

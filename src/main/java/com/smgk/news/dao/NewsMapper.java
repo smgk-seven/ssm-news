@@ -32,5 +32,8 @@ public interface NewsMapper {
     
     List<News> getAllNewsAndUser();
     
-    List<News> getAllNewsAndUserByLike(@Param("title") String title,@Param("content") String content);
+    //List<News> getAllNewsAndUserByLike(@Param("title") String title,@Param("content") String content);
+    List<News> getAllNewsByNewsKeyword(@Param("content") String content);
+    //获取新闻 类别 的
+    List<News> getAllNewsByGenre(@Param("genre") int genre);
 }

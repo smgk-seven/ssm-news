@@ -21,4 +21,9 @@ public class GenreService {
 		return genreMapper.selectByPrimaryKey(userLikeId);
 	}
 
+	public int getGenreBygenreName(String showNewsType) {
+		// TODO Auto-generated method stub
+		return genreMapper.getGenreBygenreName(showNewsType).getGenreId();
+	}
+
 }

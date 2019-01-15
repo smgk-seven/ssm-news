@@ -161,4 +161,10 @@
     set genre_name = #{genreName,jdbcType=VARCHAR}
     where genre_id = #{genreId,jdbcType=INTEGER}
   </update>
+  
+  <!-- int getGenreBygenreName(@Param("genreName")String genreName); -->
+  <select id="getGenreBygenreName" resultMap="BaseResultMap">
+	 select * from genre where genre_name=#{genreName};
+  </select>
+  
 </mapper>

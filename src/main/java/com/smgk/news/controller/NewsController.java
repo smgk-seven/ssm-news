@@ -13,12 +13,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.smgk.news.bean.Msg;
 import com.smgk.news.bean.News;
+import com.smgk.news.service.GenreService;
 import com.smgk.news.service.NewsService;
 
 @Controller
 public class NewsController {
 	@Autowired
 	private NewsService newsService;
+	@Autowired
+	private GenreService genreService;
 	/*
 	 * newesContent)
 	    console.log(newsTitle)
@@ -66,16 +69,43 @@ public class NewsController {
 	//这个是带条件件的，
 	@RequestMapping("/getNews")
 	@ResponseBody
-	public Msg getNews(@RequestParam("newsPageNum")Integer newsPageNum,@RequestParam("showNewsType") String showNewsType){
-		PageHelper.startPage(newsPageNum, 5);
-		List<News> allNewsAndUser;
-		if(showNewsType==""){
+	public Msg getNews(@RequestParam("newsPageNum")Integer newsPageNum,@RequestParam("showNewsType") String showNewsType,@RequestParam("showNewsKeyword")String showNewsKeyword){
+		//PageHelper.startPage(newsPageNum, 5);
+		//List<News> allNewsAndUser;
+		/*if(showNewsType==""){
 			System.out.println("查的所有新闻");
 			allNewsAndUser = newsService.getAllNewsAndUser();
 			PageInfo allNews=new PageInfo(allNewsAndUser,3);
 			return Msg.success().add("allNews", allNews);
+		}*/
+		int newsGenre;
+		List<News> allNewsAndUser;
+		System.out.println("newsPageNum："+newsPageNum+"showNewsType："+showNewsType+"showNewsKeyword："+showNewsKeyword);
+		if(showNewsType.equals("")&&showNewsKeyword.equals("")){
+			System.out.println("查的所有新闻");
+			PageHelper.startPage(newsPageNum, 5);
+			allNewsAndUser = newsService.getAllNewsAndUser();
+			PageInfo allNews=new PageInfo(allNewsAndUser,3);
+			return Msg.success().add("allNews", allNews);
+		}else{
+			if(!showNewsType.equals("")){
+				
+				System.out.println("查看的新闻 类别是："+showNewsType);
+				newsGenre=genreService.getGenreBygenreName(showNewsType);
+				PageHelper.startPage(newsPageNum, 5);
+				allNewsAndUser=newsService.getNewsByGenreId(newsGenre);
+				PageInfo allNews=new PageInfo(allNewsAndUser,3);
+				return Msg.success().add("allNews", allNews);
+			}else if(!showNewsKeyword.equals("")){
+				
+				System.out.println("查看的新闻 内容是："+showNewsKeyword);
+				PageHelper.startPage(newsPageNum, 5);
+				allNewsAndUser=newsService.getNewsByKeyword(showNewsKeyword);
+				System.out.println(showNewsKeyword);
+				PageInfo allNews=new PageInfo(allNewsAndUser,3);
+				return Msg.success().add("allNews", allNews);
+			}
 		}
-		
 		return Msg.success();
 	}
 }

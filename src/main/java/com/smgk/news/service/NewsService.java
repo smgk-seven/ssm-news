@@ -31,5 +31,15 @@ public class NewsService {
 	public List<News> getAllNewsAndUser() {
 		return newsMapper.getAllNewsAndUser();
 	}
+
+	public List<News> getNewsByGenreId(int newsGenre) {
+		// TODO Auto-generated method stub
+		return newsMapper.getAllNewsByGenre(newsGenre);
+	}
+
+	public List<News> getNewsByKeyword(String showNewsKeyword) {
+		// TODO Auto-generated method stub
+		return newsMapper.getAllNewsByNewsKeyword(showNewsKeyword);
+	}
 	
 }

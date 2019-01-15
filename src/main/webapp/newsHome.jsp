@@ -292,6 +292,18 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 			border:1px solid black;
 			float:right;
 		}
+		.newsImg{
+			overflow: hidden;
+		}
+		.newsListImg:hover{
+			width:145px;
+			height: 120px;
+		}
+		.newsListImg{
+			width:140px;
+			height: 114px;
+			transition:all 0.5s;
+		}
   	</style>
   </head>
   
@@ -300,7 +312,7 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
     	<div id="head">
 			<div id="headContent">
 				<div id="newsWeather">
-					<span>广东-佛山：<span><em>-10</em>°&nbsp;/&nbsp;<em>10</em>°
+					<span>广东-佛山：<span><em>10</em>°&nbsp;/&nbsp;<em>10</em>°
     				</span></span>
     				
     			</div>
@@ -442,10 +454,11 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 	<script type="text/javascript">
 		var loginUserId=$("#loginUserId").val()
 		var showNewsType="";
+		var showNewsKeyword="";
 		$(function(){
 			addNewsGenre();
 			addLoginUserInfo(loginUserId);
-			getNews(1,showNewsType);
+			getNews(1,showNewsType,showNewsKeyword);
 		})
 		
 		$(document).on("click",".loginBt",function(){
@@ -470,7 +483,7 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 	//把新闻 内容添加到li
 	function setNewsGenre(result){
 		$("#newsMenuUl").empty();
-		$("#newsMenuUl").append("<li style='width:140px; font-size: 20px; color: red'>SSM-NEWS</li>")
+		$("#newsMenuUl").append("<li class='newsHome' style='width:140px; font-size: 20px; color: red'>SSM-NEWS</li>")
 		$.each(result.extend.genres,function(index,item){
 			$("#newsMenuUl").append("<li class='newsMenuLi'>"+item.genreName+"</li>")
 		})
@@ -513,7 +526,7 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 	  		$.ajax({
 				url:"${APP_PATH }/getNews",
 				type:"POST",
-				data:"newsPageNum="+newsPageNum+"&showNewsType="+showNewsType,
+				data:"newsPageNum="+newsPageNum+"&showNewsType="+showNewsType+"&showNewsKeyword="+showNewsKeyword,
 				success:function(result){
 					addNews(result);
 					addNewsFYInfo(result);
@@ -526,12 +539,15 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 		//把新闻 添加到div
 		//target='_blank'
 		function addNews(result){
+			var ii=0
 			$("#newsListUl").empty();
-			$.each(result.extend.allNews.list,function(index,item){
-				var newsImgDiv=$("<div class='newsImg'><a href='showNews.jsp?newsId="+item.newsId+" '><img src='"+item.newsTopImg+"'width='140'height='114'><div/>");
-				var newsTitleDiv=$("<div class='newsTitle'><span id='newsTitleSp'>"+item.newsTitle+"</span><div/>");
-				var li=$("<li><li>").append(newsImgDiv).append(newsTitleDiv);
-				$("#newsListUl").append(li)
+			$.each(result.extend.allNews.list,function(index,item){//width='140'height='114'
+				ii++;
+				var newsImgDiv=$("<div class='newsImg'><a href='showNews.jsp?newsId="+item.newsId+" '><img class='newsListImg' src='"+item.newsTopImg+"'></a></div>");
+				var newsTitleDiv=$("<div class='newsTitle'><span id='newsTitleSp'>"+item.newsTitle+"</span></div>");
+				$("<li><li>").append(newsImgDiv).append(newsTitleDiv).appendTo("#newsListUl")
+				console.log(ii)
+			
 			})
 		}
 		//把新闻 列表的分页添加到div
@@ -579,7 +595,6 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 	  		ul.append(firstPageLi).append(prePageLi);
 	  		//遍历 出 页数导航条--》 navigatepageNums
 	  		$.each(result.extend.allNews.navigatepageNums,function(index,item){
-	  			
 	  			var numLi = $("<li></li>").append($("<a></a>").append(item));
 	  			if(result.extend.allNews.pageNum==item){
 	  				numLi.addClass("active");
@@ -594,6 +609,25 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 	  		navEle.appendTo("#newsFYT");
 	  	}
 		
+		//设置搜索文章内容
+		$(".newsSearchSO").click(function(){
+			showNewsKeyword=$(".newsSearchInput").val();
+			showNewsType="";
+			getNews(1,showNewsType,showNewsKeyword);
+		})
+		
+		$(document).on("click", ".newsMenuLi", function(){
+			showNewsType=$(this).html();
+			showNewsKeyword="";
+			console.log(showNewsType)
+			getNews(1,showNewsType,showNewsKeyword);
+		})
+		$(document).on("click", ".newsHome", function(){
+			showNewsType="";
+			showNewsKeyword="";
+			
+			getNews(1,showNewsType,showNewsKeyword);
+		})
 		
 		
 		//退出登录

@@ -307,13 +307,21 @@
 	
 	<!-- List<News> getAllNewsAndUser(); -->
 	<select id="getAllNewsAndUser" resultMap="NewsAndUserByIdRem">
-		select * from news
+		select * from news order by news_id desc
 	</select>
-	<!-- 模糊查询    List<News> getAllNewsAndUserByLike(@Param("title") String title,@Param("content") String content);  -->
-	<select id="getAllNewsAndUserByLike" resultMap="NewsAndUserByIdRem">
+	
+	<!-- 模糊查询    List<News> getAllNewsByNewsKeyword(@Param("content") String content);  -->
+	<select id="getAllNewsByNewsKeyword" resultMap="NewsAndUserByIdRem">
 		 select * from news
 		 <where>
-		 	 news_title like"%"#{title}"%" or news_content like "%"#{content}"%";
+		 	 news_title like"%"#{content,jdbcType=VARCHAR}"%" or news_content like "%"#{content,jdbcType=VARCHAR}"%"
+		 </where>
+	</select>
+	<!-- 根据类别查询新闻  List<News> getAllNewsByGenre(@Param("genre") int genre); -->
+	<select id="getAllNewsByGenre" resultMap="NewsAndUserByIdRem">
+		 select * from news 
+		 <where>
+		 	 news_genre=#{genre,jdbcType=INTEGER}
 		 </where>
 	</select>
 </mapper>
