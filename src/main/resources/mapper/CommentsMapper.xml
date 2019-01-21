@@ -208,4 +208,26 @@
       comments_news = #{commentsNews,jdbcType=INTEGER}
     where comments_id = #{commentsId,jdbcType=INTEGER}
   </update>
+  <!-- List<Comments> getNewsCommentsById(int newsId); -->
+  <resultMap id="getNewsCommentsByIdMap" type="com.smgk.news.bean.Comments">
+    <id column="comments_id" jdbcType="INTEGER" property="commentsId" />
+    <result column="comments_content" jdbcType="VARCHAR" property="commentsContent" />
+    <result column="comments_time" jdbcType="TIMESTAMP" property="commentsTime" />
+    <result column="comments_user" jdbcType="INTEGER" property="commentsUser" />
+    <result column="comments_news" jdbcType="INTEGER" property="commentsNews" />
+	     <association property="user" select="com.smgk.news.dao.UserMapper.selectByPrimaryKey" column="comments_user">
+	    	<id column="user_id" jdbcType="INTEGER" property="userId" />
+		    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+		    <result column="email" jdbcType="VARCHAR" property="email" />
+		    <result column="password" jdbcType="VARCHAR" property="password" />
+		    <result column="user_genre" jdbcType="CHAR" property="userGenre" />
+		    <result column="user_like" jdbcType="INTEGER" property="userLike" />		
+	    </association>
+  </resultMap>
+  <select id="getNewsCommentsById" resultMap="getNewsCommentsByIdMap">
+    select * from comments 
+    <where>
+     comments_news=#{newsId}
+    </where>
+  </select>
 </mapper>

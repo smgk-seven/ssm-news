@@ -4,9 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 pageContext.setAttribute("APP_PATH", request.getContextPath());
 pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUser"));
-
 %>
-
 <!DOCTYPE html5>
 <html>
   <head>
@@ -17,7 +15,7 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 	<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
 	<script src="${APP_PATH}/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
   	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
-  	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  	<!-- <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script> -->
   	<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
   	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
   	<style type="text/css">
@@ -49,7 +47,9 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
   			width:200px;
   			height:48px;
 			border: 0.3px solid white;
-			float:left; 			
+			float:left;
+			/* background: white; */
+			 font-size: 16px;		
   		}
   		#newsHeadMenu{
   			width:200px;
@@ -245,7 +245,7 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 		}
 		#newsTJ{
 			width:335px;
-			height:376px;
+			height:360px;
 			background: rgb(241,241,241);
 			padding: 6px;
 			
@@ -256,7 +256,7 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 		#newsTJ ul li{
 			width:325px;
 			height:80px;
-			border-bottom: 1px solid rgba(45,45,45,0.5);
+			border-bottom: 1px solid rgba(45,45,45,0.3);
 			list-style: none;
 		}
 		.newsTJImg{
@@ -312,8 +312,8 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
     	<div id="head">
 			<div id="headContent">
 				<div id="newsWeather">
-					<span>广东-佛山：<span><em>10</em>°&nbsp;/&nbsp;<em>10</em>°
-    				</span></span>
+					<!-- <span>广东-佛山：<span><em>10</em>°&nbsp;/&nbsp;<em>10</em>°</span> -->
+					<iframe scrolling="no" src="https://tianqiapi.com/api.php?city=茂名&skin=pitaya&color=ffff&fontsize=16&paddingtop=10" frameborder="0" width="200" height="35" allowtransparency="true"></iframe>
     				
     			</div>
 				<div id="newsHeadMenu">
@@ -444,6 +444,9 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 							</li>
 						</ul>
 					</div>
+					<div id="newsZX">
+						
+					</div>
 				</div>
 			</div>
 			
@@ -512,7 +515,7 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 		//把user信息添加到div
 		function addUserToDiv(result){
 			var ul=$("<ul></ul>");
-			ul.append($("<li id='userTopImg'></li>"));
+			ul.append($("<a href='loginAction?username="+result.extend.user.nickName+"'><li id='userTopImg'></li></a>"));
 			ul.append($("<li id='userNickName'>"+result.extend.user.nickName+"</li>"));
 			//<a href="exit"><button type="button">退出登录</button></a>
 			ul.append($("<li><button class='btn exit' >退出登录</button></li>"));
@@ -543,7 +546,7 @@ pageContext.setAttribute("LoginUser",request.getSession().getAttribute("loginUse
 			$("#newsListUl").empty();
 			$.each(result.extend.allNews.list,function(index,item){//width='140'height='114'
 				ii++;
-				var newsImgDiv=$("<div class='newsImg'><a href='showNews.jsp?newsId="+item.newsId+" '><img class='newsListImg' src='"+item.newsTopImg+"'></a></div>");
+				var newsImgDiv=$("<div class='newsImg'><a href='showNews.jsp?newsId="+item.newsId+"' target='_blank'><img class='newsListImg' src='"+item.newsTopImg+"'></a></div>");
 				var newsTitleDiv=$("<div class='newsTitle'><span id='newsTitleSp'>"+item.newsTitle+"</span></div>");
 				$("<li><li>").append(newsImgDiv).append(newsTitleDiv).appendTo("#newsListUl")
 				console.log(ii)

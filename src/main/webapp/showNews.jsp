@@ -84,7 +84,7 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 		#newsContentDiv{
 			width:1000px;
 			border:0.3px solid black;
-			margin: 0px auto;
+			margin: 30px auto;
 			padding-left:15px;
 		}
 		
@@ -94,7 +94,6 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 			border:0.3px solid black;
 			margin: 20px auto;
 			padding-left: 5px;
-			
 		}
 		#newsDataLeft{
 			float:left;
@@ -107,7 +106,6 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 			margin: 0px auto;
 			list-style: none;
 			color: rgba(70,70,70,0.8);
-			
 		}
 		#newsDianZhang{
 			float:right;
@@ -136,6 +134,7 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 			width:800px;
 			height: 50px;
 			border:0.5px solid black;
+			font-size: 19px;
 		}
 		.newsCommentPL{
 			background: black;
@@ -152,7 +151,6 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 			list-style: none;
 			margin:2px auto;
 			
-			
 		}
 		#left ul li i{
 			cursor: pointer;
@@ -160,9 +158,58 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 		#left ul li span{
 			font-size:20px;
 			font-style:italic;
-			color: rgba(248,87,92,0.9);
+			color: black;
 			
 		}
+		#newsAllCommentDiv{
+			width:1000px;
+			height: auto;
+			/* border:1px solid blue; */
+			margin:10px auto;
+		}
+		#newsAllCommentDiv ul li{
+			width:990px;
+			height: auto;
+			border-top:1px solid rgba(45,45,45,0.2);
+			list-style: none;
+			margin:2px auto;
+		}
+		.CommentUserInfo{
+			width:990px;
+			height: 35px;
+			
+			
+		}
+		.CommentUserInfo span{
+			line-height: 30px;
+		}
+		.CommentTop{
+			width:30px;
+			height: 30px;
+			cursor: pointer;
+			border-radius:50px;
+			background:url(${APP_PATH}/static/images/userTop/userTop1.jpg);
+			background-size: 100% 100%;
+			float:left;
+		}
+		.CommentNickname{
+			color: blue;
+			margin-left: 10px;
+			cursor: pointer;
+		}
+		.CommentContent{
+			width:990px;
+			height: auto;
+			padding-left: 40px;
+			font-size: 20px;
+		}
+		.CommentTime{
+			margin-left: 10px;
+		}
+		#newsAuthorSpan{
+			margin-left: 20px;
+		}
+		
 	</style>
 
 	</head>
@@ -185,21 +232,21 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 		<div id="big">
 			<div id="left">
 				<ul>
-					<li class="">
-						<i class="fa fa-star-o" style="font-size:40px;color:red"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-						<span>99+</span>
+					<li>
+						<i class="fa fa-star-o CollectI" style="font-size:40px;"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+						<span id="newsSCSpan">99+</span>
 					</li>
-					<li class="">
-						<i class="fa fa-thumbs-o-up" style="font-size: 40px;color:red"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-						<span>99+</span>
+					<li>
+						<i class="fa fa-thumbs-o-up GivegoodI" style="font-size: 40px;"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+						<span id="newsDZSpan">99+</span>
 					</li>
-					<li class="">
-						<i class="fa fa-commenting-o" style="font-size:40px;color:red"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-						<span>99+</span>
+					<li>
+						<i class="fa fa-commenting-o" style="font-size:40px;color:rgba(249,204,154,0.9);"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+						<span id="newsPLSpan">99+</span>
 					</li>
-					<li class="">
-						<i class="fa fa-reply" style="font-size:40px;color:red"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-						<span>转发</span>
+					<li>
+						<i class="fa fa-eye" style="font-size:40px;color:green;"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+						<span id="newsCKSpan">91</span>
 					</li>
 					
 				</ul>
@@ -207,6 +254,8 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 			<div id="right">
 				<div id="newsTitleDiv">
 					<h4 id="newsTitleH4"></h4>
+					<span id="newsAuthorSpan">ladmin</span>&nbsp;&nbsp;
+					<span id="newsTitleSpan">1998-7-14</span>
 				</div>
 				<div id="newsContentDiv">
 				</div>
@@ -231,23 +280,33 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 					<div id="newsInputDiv" >
 						<form action="#" method="post">
 							<div class="input-group">
-								<input type="text" class="form-control newsCommentInput" placeholder="请输入名称">
+								<input type="text" name="" class="form-control newsCommentInput" placeholder="请输入名称">
 	          					<span class="input-group-addon newsCommentPL">评论一下</span>
           					</div>
 						</form>
 					</div>
 				</div>
-				
-			
+				<div id="newsAllCommentDiv">
+					<ul id="newsAllCommentUl">
+					</ul>
+				</div>
 			</div>
 		</div>
 		<input type="hidden" id="newsIdValue" value="<%=request.getParameter("newsId") %>">
+		<input type="hidden" id="userIdInput" value="${LoginUserId.userId}">
 	</body>
 	<script type="text/javascript">
+		var userId=$("#userIdInput").val()
+		var newsId=$("#newsIdValue").val();
+		
 		$(function(){
 			getNews();
+			getComments();
+			getNewsData();
+			getNewsSFGivegood();
+			getNewsSFCollect();
 		})
-		var newsId=$("#newsIdValue").val();
+		
 		function getNews(){
 			$.ajax({
 		    	url:"${APP_PATH }/showNewsContent",
@@ -263,10 +322,152 @@ pageContext.setAttribute("APP_PATH", request.getContextPath());
 			$("#newsTitleH4").empty();
 			//$("#newsContentDiv").empty();
 			$("#newsTitleH4").append(result.extend.news.newsTitle)
+			newsId=result.extend.news.newsId;
 			document.getElementById("newsContentDiv").innerHTML=result.extend.news.newsContent;
-			document.getElementById("newsAuthor").innerHTML=result.extend.news.user.nickName;
-			document.getElementById("newsTime").innerHTML=result.extend.news.returnDate;
-			document.getElementById("newsTime").innerHTML=result.extend.news.returnDate;
+			document.getElementById("newsAuthorSpan").innerHTML=result.extend.news.user.nickName;
+			document.getElementById("newsTitleSpan").innerHTML=result.extend.news.returnDate;
 		}
+		//判断是否点赞
+		function getNewsSFGivegood(){
+			$.ajax({
+		    	url:"${APP_PATH }/newsSFGivegood",
+		    	data:"newsId="+newsId+"&userId="+userId,
+		    	type:"POST",
+		    	success:function(result){
+		    		actionDZIco(result.extend.message);
+		    		
+		    	}
+		    })
+		}
+		//判断是否收藏 
+		function getNewsSFCollect(){
+			$.ajax({
+		    	url:"${APP_PATH }/newsSFCollect",
+		    	data:"newsId="+newsId+"&userId="+userId,
+		    	type:"POST",
+		    	success:function(result){
+		    		actionSCIco(result.extend.message);
+		    		
+		    	}
+		    })
+		}
+		//处理点赞图标
+		function actionDZIco(str){
+			if(str=="0"){
+    			$(".GivegoodI").css("color","rgba(140,140,140,0.9)");
+    		}else if(str=="1"){
+    			$(".GivegoodI").css("color","red")
+    		}
+		}
+		//处理收藏 图标
+		function actionSCIco(str){
+			if(str=="0"){
+    			$(".CollectI").css("color","rgba(140,140,140,0.9)");
+    		}else if(str=="1"){
+    			$(".CollectI").css("color","red")
+    		}
+		}
+		
+		//获取评论
+		function getComments(){
+			$.ajax({
+		    	url:"${APP_PATH }/getNewsComment",
+		    	type:"POST",
+		    	data:"newsId="+newsId,
+		    	success:function(result){
+		    		addCommentsTo(result);
+		    	}
+		    })
+		}
+		
+		//把评论添加到div
+		function addCommentsTo(result){
+			$("#newsAllCommentUl").empty();
+			$.each(result.extend.allNewsComments,function(index,item){
+				var userTop=$("<div class='CommentTop'></div>");
+				var userNickname=$("<span class='CommentNickname'>"+item.user.nickName+"</span>")
+				var CommentsTime=$("<span class='CommentTime'>"+item.commentTimeStr+"</span>");
+				var commentContent=$("<div class='CommentContent'>"+item.commentsContent+"</div>");
+				var userInfoDiv=$("<div class='CommentUserInfo'></div>").append(userTop).append(userNickname).append(CommentsTime)
+				$("<li></li>").append(userInfoDiv).append(commentContent).appendTo("#newsAllCommentUl")
+			})
+		}
+		//处理评论
+		$(".newsCommentPL").click(function(){
+			var CommentContent=$(".newsCommentInput").val()
+			if(userId==null||userId==""){
+				alert("请登录后再评论")
+				window.location='${APP_PATH}/login.jsp';
+			}else{
+				if(CommentContent==""||CommentContent==null){
+					alert("评论内容不能为空")
+				}else{
+					$.ajax({
+				    	url:"${APP_PATH }/addComment",
+				    	data:"newsId="+newsId+"&userId="+userId+"&CommentContent="+CommentContent,
+				    	type:"POST",
+				    	success:function(result){
+				    		alert(result.msg)
+				    		$(".newsCommentInput").val("")
+				    		getComments();
+				    		getNewsData();
+				    	}
+				    })
+				}
+			}
+		})
+		
+		//获取取点赞/收藏 /评论数
+		function getNewsData(){
+			$.ajax({
+		    	url:"${APP_PATH }/getNewsData",
+		    	data:"newsId="+newsId,
+		    	type:"POST",
+		    	success:function(result){
+		    		document.getElementById("newsSCSpan").innerHTML=result.extend.newsData.newsCollectNum;
+		    		document.getElementById("newsDZSpan").innerHTML=result.extend.newsData.newsGivegood;
+		    		document.getElementById("newsPLSpan").innerHTML=result.extend.newsData.newsCommentsNum;
+		    		
+		    	}
+		    })
+		}
+		
+		//点赞功能
+		$(".GivegoodI").click(function(){
+			if(userId==null||userId==""){
+				alert("请注册/登录后再点赞");
+				window.location='${APP_PATH}/login.jsp';
+			}else{
+				$.ajax({
+			    	url:"${APP_PATH }/addGivegood",
+			    	data:"newsId="+newsId+"&userId="+userId,
+			    	type:"POST",
+			    	success:function(result){
+			    		actionDZIco(result.extend.message);
+			    		getNewsData();
+			    		
+			    	}
+			    })
+			}
+		})
+		//收藏功能
+		$(".CollectI").click(function(){
+			if(userId==null||userId==""){
+				alert("请注册/登录后再收藏 ");
+				window.location='${APP_PATH}/login.jsp';
+			}else{
+				$.ajax({
+			    	url:"${APP_PATH }/addCollect",
+			    	data:"newsId="+newsId+"&userId="+userId,
+			    	type:"POST",
+			    	success:function(result){
+			    		actionSCIco(result.extend.message);
+			    		getNewsData();
+			    		
+			    	}
+			    })
+			}
+		})
+		
 	</script>
 </html>

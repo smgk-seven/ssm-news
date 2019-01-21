@@ -11,9 +11,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.smgk.news.bean.Collect;
+import com.smgk.news.bean.Comments;
+import com.smgk.news.bean.GiveGood;
 import com.smgk.news.bean.Msg;
 import com.smgk.news.bean.News;
+import com.smgk.news.bean.NewsData;
+import com.smgk.news.service.CollectSerice;
+import com.smgk.news.service.CommentService;
 import com.smgk.news.service.GenreService;
+import com.smgk.news.service.GivegoodSerice;
 import com.smgk.news.service.NewsService;
 
 @Controller
@@ -22,23 +29,22 @@ public class NewsController {
 	private NewsService newsService;
 	@Autowired
 	private GenreService genreService;
-	/*
-	 * newesContent)
-	    console.log(newsTitle)
-	    console.log(newsSummary)
-	    console.log(newsTopImg)
-	    console.log(newsAuthor)
-	    console.log(newsGenre
-	 */
+	@Autowired
+	private CollectSerice collectService;
+	@Autowired
+	private CommentService commentService;
+	@Autowired
+	private GivegoodSerice givegoodService;
+	
 	
 	@RequestMapping("/addNews")
-	@ResponseBody
-	public Msg addNews(News news){
+	//@ResponseBody
+	public String addNews(News news) {
 		news.setNewsTime(new Date());
 		newsService.addNews(news);
 		System.out.println(news);
 	
-		return Msg.success();
+		return "success";
 	}
 /*	@RequestMapping("/addNews")
 	@ResponseBody
@@ -108,4 +114,34 @@ public class NewsController {
 		}
 		return Msg.success();
 	}
+	
+	//获取 点赞，收藏 浏览 评论数
+	@RequestMapping("/getNewsData")
+	@ResponseBody
+	public Msg getCommentInfo(@RequestParam("newsId")int newsId){
+		int newsCommentsNum=0;
+		int newsCollectNum=0;
+		int newsGivegood=0;
+		List<Comments> newsCommentById = commentService.getNewsCommentById(newsId);
+		newsCommentsNum=newsCommentById.size();
+		List<Collect> allCollect = collectService.getAllCollect();
+		for(Collect c:allCollect){
+			if(c.getCollectNews()==newsId){
+				newsCollectNum++;
+			}else{
+				continue;
+			}
+		}
+		List<GiveGood> allGivegood = givegoodService.getAllGivegood();
+		for(GiveGood g:allGivegood){
+			if(g.getGiveGoodNews()==newsId){
+				newsGivegood++;
+			}else{
+				continue;
+			}
+		}
+		NewsData newsData=new NewsData(newsCommentsNum, newsCollectNum, newsGivegood);
+		return Msg.success().add("newsData", newsData);
+	}
+	
 }

@@ -284,27 +284,7 @@ pageContext.setAttribute("LoginUserId",request.getSession().getAttribute("loginU
 	 	})
 	}
 	
-	//处理要发布的文章
-	/* $("#addNewsBt").click(function(){
-	    newsTitle=$("#newsTitle").val()
-	    newsSummary=$("#contentZy_input").val()
-	    newsGenre=$("#newsGenreSel").val();
-	    console.log(newesContent)
-	    console.log(newsTitle)
-	    console.log(newsSummary)
-	    console.log(newsTopImg)
-	    console.log(newsAuthor)
-	    console.log(newsGenre)
-	    $.ajax({
-	    	url:"${APP_PATH }/addNews",
-	    	data:"newesContent="+newesContent+"&newsTitle="+newsTitle+"&newsSummary="+newsSummary+"&newsTopImg="+newsTopImg+"&newsAuthor="+newsAuthor+"&newsGenre="+newsGenre,
-	    	type:"POST",
-	    	success:function(result){
-	    		alert(result.msg)
-	    		window.location.reload();
-	    	}
-	    })
-	}) */
+
 	
 	$("#addNewsBt").click(function(){
 		var arr = [];
@@ -312,7 +292,7 @@ pageContext.setAttribute("LoginUserId",request.getSession().getAttribute("loginU
         arr.push(UE.getEditor('editor').getContent());
         document.getElementById("contentWEN").innerHTML=arr.join("")
         getImgSrc(arr.join("\n"));
-		console.log($("form").serialize())
+		if()
 		$("#newsForm").submit(); 
 		return false
 	}) 

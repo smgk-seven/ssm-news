@@ -9,14 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.github.pagehelper.PageHelper;
+import com.smgk.news.bean.Collect;
+import com.smgk.news.bean.CollectExample;
+import com.smgk.news.bean.Comments;
 import com.smgk.news.bean.Genre;
 import com.smgk.news.bean.News;
 import com.smgk.news.bean.User;
+import com.smgk.news.dao.CollectMapper;
+import com.smgk.news.dao.CommentsMapper;
 import com.smgk.news.dao.GenreMapper;
 import com.smgk.news.dao.NewsMapper;
 import com.smgk.news.dao.UserMapper;
-import com.smgk.news.util.utils;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,6 +31,10 @@ public class MapperTest {
 	private UserMapper userMapper;
 	@Autowired
 	private NewsMapper newsMapper;
+	@Autowired
+	private CommentsMapper commentsMapper;
+	@Autowired
+	private CollectMapper collectMapper;
 	
 	@Test
 	public void testGenre(){
@@ -80,6 +87,27 @@ public class MapperTest {
 	public void testGerne(){
 		Genre genre = genreMapper.getGenreBygenreName("视频");
 		System.out.println(genre);
+	}
+	@Test
+	public void testComments(){
+		/*List<Comments> allComments = commentsMapper.selectByExample(null);
+		for(Comments c:allComments){
+			
+			System.out.println(c);
+		}*/
+		List<Comments> newsCommentsById = commentsMapper.getNewsCommentsById(9);
+		for(Comments c:newsCommentsById){
+			System.out.println(c);
+		}
+	}
+	
+	@Test
+	public void testCollect(){
+		CollectExample ce=new CollectExample();
+		
+		
+		
+		
 	}
 }
 

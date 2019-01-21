@@ -12,8 +12,30 @@ public class Comments {
     private Integer commentsUser;
 
     private Integer commentsNews;
+    
+    private String CommentTimeStr;
+    
+    private User user;
+    
+    
 
-    public Integer getCommentsId() {
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getCommentTimeStr() {
+		return this.commentsTime.toLocaleString();
+	}
+
+	public void setCommentTimeStr(String commentTimeStr) {
+		CommentTimeStr = this.commentsTime.toLocaleString();
+	}
+
+	public Integer getCommentsId() {
         return commentsId;
     }
 
@@ -30,10 +52,12 @@ public class Comments {
     }
 
     public Date getCommentsTime() {
+    	this.CommentTimeStr=commentsTime.toLocaleString();
         return commentsTime;
     }
 
     public void setCommentsTime(Date commentsTime) {
+    	this.CommentTimeStr=commentsTime.toLocaleString();
         this.commentsTime = commentsTime;
     }
 
@@ -52,4 +76,28 @@ public class Comments {
     public void setCommentsNews(Integer commentsNews) {
         this.commentsNews = commentsNews;
     }
+
+	public Comments() {
+	}
+
+	public Comments(Integer commentsId, String commentsContent, Date commentsTime, Integer commentsUser,
+			Integer commentsNews) {
+		super();
+		this.commentsId = commentsId;
+		this.commentsContent = commentsContent;
+		this.commentsTime = commentsTime;
+		this.commentsUser = commentsUser;
+		this.commentsNews = commentsNews;
+	}
+
+	@Override
+	public String toString() {
+		return "Comments [commentsId=" + commentsId + ", commentsContent=" + commentsContent + ", commentsTime="
+				+ commentsTime + ", commentsUser=" + commentsUser + ", commentsNews=" + commentsNews
+				+ ", CommentTimeStr=" + CommentTimeStr + ", user=" + user + "]";
+	}
+
+	
+    
+    
 }

@@ -239,7 +239,10 @@ public class UserController {
 	@RequestMapping("/loginAction")
 	public String login(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException{
 		String username=request.getParameter("username");
+		System.out.println("loginAction调用："+username);
 		List<User> allUser = userService.getAllUser();
+		String path=request.getHeader("Referer");
+		System.out.println(path);
 		for(User u:allUser){
 			if((u.getEmail().equals(username)||u.getNickName().equals(username))){
 				request.getSession().setAttribute("loginUser", u);

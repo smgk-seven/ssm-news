@@ -30,4 +30,15 @@ public class GiveGood {
     public void setGiveGoodNews(Integer giveGoodNews) {
         this.giveGoodNews = giveGoodNews;
     }
+
+	public GiveGood() {
+	}
+
+	public GiveGood(Integer giveGoodId, Integer giveGoodUser, Integer giveGoodNews) {
+		this.giveGoodId = giveGoodId;
+		this.giveGoodUser = giveGoodUser;
+		this.giveGoodNews = giveGoodNews;
+	}
+	
+    
 }

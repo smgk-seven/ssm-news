@@ -30,4 +30,22 @@ public class Collect {
     public void setCollectNews(Integer collectNews) {
         this.collectNews = collectNews;
     }
+    
+	public Collect() {
+	}
+
+	public Collect(Integer collectId, Integer collectUser, Integer collectNews) {
+		super();
+		this.collectId = collectId;
+		this.collectUser = collectUser;
+		this.collectNews = collectNews;
+	}
+
+	@Override
+	public String toString() {
+		return "Collect [collectId=" + collectId + ", collectUser=" + collectUser + ", collectNews=" + collectNews
+				+ "]";
+	}
+	
+    
 }

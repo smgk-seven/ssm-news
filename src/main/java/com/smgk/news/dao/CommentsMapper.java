@@ -27,4 +27,6 @@ public interface CommentsMapper {
     int updateByPrimaryKeySelective(Comments record);
 
     int updateByPrimaryKey(Comments record);
+    
+    List<Comments> getNewsCommentsById(int newsId);
 }
